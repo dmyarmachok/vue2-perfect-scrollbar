@@ -5,7 +5,7 @@
 }(this, (function (exports) { 'use strict';
 
   /*!
-   * perfect-scrollbar v1.5.0
+   * perfect-scrollbar v1.5.1
    * Copyright 2020 Hyunje Jun, MDBootstrap and Contributors
    * Licensed under MIT
    */
@@ -133,10 +133,8 @@
   };
 
   EventElement.prototype.unbindAll = function unbindAll () {
-    var this$1 = this;
-
-    for (var name in this$1.handlers) {
-      this$1.unbind(name);
+    for (var name in this.handlers) {
+      this.unbind(name);
     }
   };
 
@@ -331,8 +329,9 @@
     var roundedScrollTop = Math.floor(element.scrollTop);
     var rect = element.getBoundingClientRect();
 
-    i.containerWidth = Math.ceil(rect.width);
-    i.containerHeight = Math.ceil(rect.height);
+    i.containerWidth = Math.round(rect.width);
+    i.containerHeight = Math.round(rect.height);
+
     i.contentWidth = element.scrollWidth;
     i.contentHeight = element.scrollHeight;
 
@@ -1139,8 +1138,6 @@
   };
 
   var PerfectScrollbar = function PerfectScrollbar(element, userSettings) {
-    var this$2 = this;
-
     var this$1 = this;
     if ( userSettings === void 0 ) { userSettings = {}; }
 
@@ -1158,7 +1155,7 @@
 
     this.settings = defaultSettings();
     for (var key in userSettings) {
-      this$2.settings[key] = userSettings[key];
+      this.settings[key] = userSettings[key];
     }
 
     this.containerWidth = null;
@@ -1262,8 +1259,8 @@
 
     this.settings.handlers.forEach(function (handlerName) { return handlers[handlerName](this$1); });
 
-    this.lastScrollTop = Math.floor(element.scrollTop); // for onScroll only
-    this.lastScrollLeft = element.scrollLeft; // for onScroll only
+    if (element) { this.lastScrollTop = Math.floor(element.scrollTop); } // for onScroll only
+    if (element) { this.lastScrollLeft = element.scrollLeft; } // for onScroll only
     this.event.bind(this.element, 'scroll', function (e) { return this$1.onScroll(e); });
     updateGeometry(this);
   };
